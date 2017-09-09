@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Test/TestBuild.unity
     guid: 7f5320e49f8fc104dacccb3fab4713f2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test/VuforiaTest.unity
     guid: 2f3256059887edf429b049f414b64fdd
+  - enabled: 1
+    path: Assets/Scenes/Test/ConeColliderTest.unity
+    guid: b432abd1d8de4ea4a8ff12a463d17987
