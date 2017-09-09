@@ -6,9 +6,6 @@ namespace GO
 {
     public class FloatingObjectController : MonoBehaviour
     {
-        [SerializeField]
-        private Activator _activator;
-
         private ColorType _previousColor;
         private ColorType _newColor;
 

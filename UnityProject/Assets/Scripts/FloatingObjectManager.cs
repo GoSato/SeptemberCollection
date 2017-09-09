@@ -5,7 +5,10 @@ using UnityEngine;
 namespace GO
 {
     public class FloatingObjectManager : SingletonMonoBehavior<FloatingObjectManager>
-    { 
+    {
+        [SerializeField]
+        private Activator _activator;
+
         private MultiDictionary<ColorType, FloatingObjectBehavior> _floatinObjects = new MultiDictionary<ColorType, FloatingObjectBehavior>();
         private FloatingObjectController _controller;
 
@@ -26,6 +29,7 @@ namespace GO
         private void Start()
         {
             _controller.SetActiveAll(false);
+            _activator.OnActive += OnStart;
         }
 
         private void FindFloatingObjects()
@@ -44,6 +48,11 @@ namespace GO
         public void OnDeactivate(ColorType color)
         {
             _controller.SetActive(color, false);
+        }
+
+        public void OnStart()
+        {
+            _controller.SetActiveAll(true);
         }
 
         /// <summary>
