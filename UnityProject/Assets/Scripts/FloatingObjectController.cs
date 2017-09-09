@@ -12,12 +12,7 @@ namespace GO
         private ColorType _previousColor;
         private ColorType _newColor;
 
-        private void Start()
-        {
-            SetActiveAll(false);
-        }
-
-        private  void SetActiveAll(bool active)
+        public  void SetActiveAll(bool active)
         {
             foreach (var pair in FloatingObjectManager.Instance.FloatingObjecets)
             {
@@ -28,7 +23,7 @@ namespace GO
             }
         }
 
-        private void SetActive(ColorType color, bool active)
+        public void SetActive(ColorType color, bool active)
         {
             foreach (var n in FloatingObjectManager.Instance.FloatingObjecets[color])
             {
