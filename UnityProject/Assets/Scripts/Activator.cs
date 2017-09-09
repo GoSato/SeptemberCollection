@@ -6,13 +6,16 @@ using System;
 namespace GO
 {
     /// <summary>
-    /// Playerがエリア内に入ると、Markerに関連するコンポーネントをActiveにする
+    /// Playerがエリア内外で、設定したオブジェクトのActiveを切り替えるコンポーネント
     /// </summary>
     public class Activator : MonoBehaviour
     {
         [SerializeField]
         private List<GameObject> _activateObjectList = new List<GameObject>();
-        
+        [SerializeField]
+        private bool _enterOnly = false;
+        private bool _isEntered = false;
+
         public Action OnActive;
         public Action OnDeactive;
 
@@ -41,6 +44,11 @@ namespace GO
 
         private void OnTriggerExit(Collider other)
         {
+            if(_enterOnly)
+            {
+                return;
+            }
+
             if(CanReact(other.gameObject))
             {
                 Deactivate();
@@ -58,6 +66,11 @@ namespace GO
 
         private void Activate()
         {
+            if(_isEntered)
+            {
+                return;
+            }
+
             Debug.Log("Activate : " + transform.parent.name);
             IsInsideActiveArea = true;
 
@@ -69,6 +82,11 @@ namespace GO
             if (OnActive != null)
             {
                 OnActive.Invoke();
+            }
+
+            if(_enterOnly)
+            {
+                _isEntered = true;
             }
         }
 
