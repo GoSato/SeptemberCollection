@@ -5,6 +5,8 @@ using HoloToolkit.Unity.InputModule;
 
 public class PersistoMatic : MonoBehaviour, IInputClickHandler
 {
+    [SerializeField]
+    private GimmickConnector _gimmickConnector;
 
     public string ObjectAnchorStoreName;
 
@@ -18,6 +20,13 @@ public class PersistoMatic : MonoBehaviour, IInputClickHandler
         Debug.Log("WorldAnchorStore.GetAsync()");
         InputManager.Instance.PushFallbackInputHandler(gameObject);
         WorldAnchorStore.GetAsync(AnchorStoreReady);
+
+        if(_canPlacing)
+        {
+            gameObject.transform.forward = Camera.main.transform.forward;
+            gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2;
+            _gimmickConnector.enabled = true;
+        }
     }
 
     void AnchorStoreReady(WorldAnchorStore store)
@@ -42,10 +51,10 @@ public class PersistoMatic : MonoBehaviour, IInputClickHandler
     void Update()
     {
         // アンカーをカメラに追従させる
-        if (_canPlacing)
-        {
-            gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2;
-        }
+        //if (_canPlacing)
+        //{
+        //    gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2;
+        //}
 
         //if (Input.GetKeyDown(KeyCode.S))
         //{
@@ -63,6 +72,8 @@ public class PersistoMatic : MonoBehaviour, IInputClickHandler
         // 空間にアンカーを固定
         if (_canPlacing)
         {
+            _gimmickConnector.enabled = false;
+
             WorldAnchor attachingAnchor = gameObject.AddComponent<WorldAnchor>();
 
             // 空間に正しく配置されている(ロストしていない)
@@ -81,6 +92,10 @@ public class PersistoMatic : MonoBehaviour, IInputClickHandler
         // 固定を解除
         else
         {
+            gameObject.transform.forward = Camera.main.transform.forward;
+            gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2;
+            _gimmickConnector.enabled = true;
+
             WorldAnchor anchor = gameObject.GetComponent<WorldAnchor>();
             if (anchor != null)
             {
