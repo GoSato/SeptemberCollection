@@ -3,129 +3,119 @@ using UnityEngine.VR.WSA.Persistence;
 using UnityEngine.VR.WSA;
 using HoloToolkit.Unity.InputModule;
 
-public class PersistoMatic : MonoBehaviour, IInputClickHandler
+namespace GO
 {
-    [SerializeField]
-    private GimmickConnector _gimmickConnector;
-
-    public string ObjectAnchorStoreName;
-
-    WorldAnchorStore anchorStore;
-
-    [Tooltip("アンカーを空間に配置可能な状態か")]
-    bool _canPlacing = false;
-
-    void Start()
+    public class PersistoMatic : MonoBehaviour, IInputClickHandler
     {
-        Debug.Log("WorldAnchorStore.GetAsync()");
-        InputManager.Instance.PushFallbackInputHandler(gameObject);
-        WorldAnchorStore.GetAsync(AnchorStoreReady);
+        public string ObjectAnchorStoreName;
 
-        if(_canPlacing)
+        WorldAnchorStore anchorStore;
+
+        [Tooltip("アンカーを空間に配置可能な状態か")]
+        bool _canPlacing = false;
+
+        #region ### MonoBehavior
+
+        void Start()
         {
-            gameObject.transform.forward = Camera.main.transform.forward;
-            gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2;
-            _gimmickConnector.enabled = true;
-        }
-    }
-
-    void AnchorStoreReady(WorldAnchorStore store)
-    {
-        anchorStore = store;
-        _canPlacing = true;
-
-        Debug.Log("looking for " + ObjectAnchorStoreName);
-        string[] ids = anchorStore.GetAllIds();
-        for (int index = 0; index < ids.Length; index++)
-        {
-            Debug.Log(ids[index]);
-            if (ids[index] == ObjectAnchorStoreName)
-            {
-                WorldAnchor wa = anchorStore.Load(ids[index], gameObject);
-                _canPlacing = false;
-                break;
-            }
-        }
-    }
-
-    void Update()
-    {
-        // アンカーをカメラに追従させる
-        //if (_canPlacing)
-        //{
-        //    gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2;
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.S))
-        //{
-        //    OnSelect();
-        //}
-    }
-
-    public void OnInputClicked(InputClickedEventData eventData)
-    {
-        if (anchorStore == null)
-        {
-            return;
+            Debug.Log("WorldAnchorStore.GetAsync()");
+            InputManager.Instance.PushFallbackInputHandler(gameObject);
+            WorldAnchorStore.GetAsync(AnchorStoreReady);
         }
 
-        // 空間にアンカーを固定
-        if (_canPlacing)
+        void Update()
         {
-            _gimmickConnector.enabled = false;
-
-            WorldAnchor attachingAnchor = gameObject.AddComponent<WorldAnchor>();
-
-            // 空間に正しく配置されている(ロストしていない)
-            if (attachingAnchor.isLocated)
+            // アンカーをカメラに追従させる
+            if (_canPlacing)
             {
-                Debug.Log("Saving persisted position immediately");
-                bool saved = anchorStore.Save(ObjectAnchorStoreName, attachingAnchor);
-                Debug.Log("saved: " + saved);
-            }
-            else
-            {
-                attachingAnchor.OnTrackingChanged += AttachingAnchor_OnTrackingChanged;
+                gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2;
             }
         }
 
-        // 固定を解除
-        else
+        #endregion
+
+        void AnchorStoreReady(WorldAnchorStore store)
         {
-            gameObject.transform.forward = Camera.main.transform.forward;
-            gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2;
-            _gimmickConnector.enabled = true;
+            anchorStore = store;
+            _canPlacing = true;
 
-            WorldAnchor anchor = gameObject.GetComponent<WorldAnchor>();
-            if (anchor != null)
-            {
-                DestroyImmediate(anchor);
-            }
-
+            Debug.Log("looking for " + ObjectAnchorStoreName);
             string[] ids = anchorStore.GetAllIds();
             for (int index = 0; index < ids.Length; index++)
             {
                 Debug.Log(ids[index]);
                 if (ids[index] == ObjectAnchorStoreName)
                 {
-                    bool deleted = anchorStore.Delete(ids[index]);
-                    Debug.Log("deleted: " + deleted);
+                    WorldAnchor wa = anchorStore.Load(ids[index], gameObject);
+                    _canPlacing = false;
                     break;
                 }
             }
         }
 
-        _canPlacing = !_canPlacing;
-    }
+        #region ### IInputClickHandler ###
 
-    private void AttachingAnchor_OnTrackingChanged(WorldAnchor self, bool located)
-    {
-        if (located)
+        public void OnInputClicked(InputClickedEventData eventData)
         {
-            Debug.Log("Saving persisted position in callback");
-            bool saved = anchorStore.Save(ObjectAnchorStoreName, self);
-            Debug.Log("saved: " + saved);
-            self.OnTrackingChanged -= AttachingAnchor_OnTrackingChanged;
+            if (anchorStore == null)
+            {
+                return;
+            }
+
+            // 空間にアンカーを固定
+            if (_canPlacing)
+            {
+                WorldAnchor attachingAnchor = gameObject.AddComponent<WorldAnchor>();
+
+                // 空間に正しく配置されている(ロストしていない)
+                if (attachingAnchor.isLocated)
+                {
+                    Debug.Log("Saving persisted position immediately");
+                    bool saved = anchorStore.Save(ObjectAnchorStoreName, attachingAnchor);
+                    Debug.Log("saved: " + saved);
+                }
+                else
+                {
+                    attachingAnchor.OnTrackingChanged += AttachingAnchor_OnTrackingChanged;
+                }
+            }
+
+            // 固定を解除
+            else
+            {
+                WorldAnchor anchor = gameObject.GetComponent<WorldAnchor>();
+                if (anchor != null)
+                {
+                    DestroyImmediate(anchor);
+                }
+
+                string[] ids = anchorStore.GetAllIds();
+                for (int index = 0; index < ids.Length; index++)
+                {
+                    Debug.Log(ids[index]);
+                    if (ids[index] == ObjectAnchorStoreName)
+                    {
+                        bool deleted = anchorStore.Delete(ids[index]);
+                        Debug.Log("deleted: " + deleted);
+                        break;
+                    }
+                }
+            }
+
+            _canPlacing = !_canPlacing;
+        }
+
+        #endregion
+
+        private void AttachingAnchor_OnTrackingChanged(WorldAnchor self, bool located)
+        {
+            if (located)
+            {
+                Debug.Log("Saving persisted position in callback");
+                bool saved = anchorStore.Save(ObjectAnchorStoreName, self);
+                Debug.Log("saved: " + saved);
+                self.OnTrackingChanged -= AttachingAnchor_OnTrackingChanged;
+            }
         }
     }
 }

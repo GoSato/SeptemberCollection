@@ -18,5 +18,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: 5470feff090d4de428ffa7286d0fe7af
   - enabled: 0
-    path: Assets/InputTest.unity
+    path: Assets/Scenes/Test/InputTest.unity
     guid: 8726d927bf6e3994ca8a110869a55443
+  - enabled: 0
+    path: Assets/Scenes/Test/GrabTest.unity
+    guid: 6ec1eb5b2b96d0e448bd9b544f646fd6
