@@ -6,28 +6,22 @@ using System;
 namespace GO
 {
     /// <summary>
-    /// Playerがエリア内外で、設定したオブジェクトのActiveを切り替えるコンポーネント
+    /// Playerの接触時に、設定したオブジェクトのActiveを切り替えるコンポーネント
     /// </summary>
     public class Activator : MonoBehaviour
     {
         [SerializeField]
+        private int _id;
+        [SerializeField]
         private List<GameObject> _activateObjectList = new List<GameObject>();
         [SerializeField]
+        [Tooltip("Player接触時、一度のみコールバックを実行")]
         private bool _enterOnly = false;
-        private bool _isEntered = false;
 
-        public Action OnActive;
-        public Action OnDeactive;
+        private bool _isEntered = false; // Playerが接触中か否か
 
-        /// <summary>
-        /// プレイヤーがアクティブエリア内にいるか
-        /// </summary>
-        private bool _isInsideActiveArea = false;
-        public bool IsInsideActiveArea
-        {
-            get { return _isInsideActiveArea; }
-            private set { _isInsideActiveArea = value; }
-        }
+        public Action<int> OnActivate;
+        public Action<int> OnDeactivate;
 
         private void Start()
         {
@@ -36,7 +30,7 @@ namespace GO
 
         private void OnTriggerEnter(Collider other)
         {
-            if(CanReact(other.gameObject))
+            if (CanReact(other.gameObject))
             {
                 Activate();
             }
@@ -44,12 +38,12 @@ namespace GO
 
         private void OnTriggerExit(Collider other)
         {
-            if(_enterOnly)
+            if (_enterOnly)
             {
                 return;
             }
 
-            if(CanReact(other.gameObject))
+            if (CanReact(other.gameObject))
             {
                 Deactivate();
             }
@@ -57,7 +51,7 @@ namespace GO
 
         private bool CanReact(GameObject obj)
         {
-            if(obj.CompareTag("Player"))
+            if (obj.CompareTag("Player"))
             {
                 return true;
             }
@@ -66,44 +60,61 @@ namespace GO
 
         private void Activate()
         {
-            if(_isEntered)
+            if (_isEntered)
             {
                 return;
             }
 
-            Debug.Log("Activate : " + transform.parent.name);
-            IsInsideActiveArea = true;
+            Debug.Log("Activate : " + _id);
+
+            foreach(var target in GetComponentsInChildren<IActivatable>())
+            {
+                target.OnActivate();
+            }
 
             for (int i = 0; i < _activateObjectList.Count; ++i)
             {
                 _activateObjectList[i].SetActive(true);
             }
 
-            if (OnActive != null)
+            if (OnActivate != null)
             {
-                OnActive.Invoke();
+                OnActivate.Invoke(_id);
             }
 
-            if(_enterOnly)
-            {
-                _isEntered = true;
-            }
+            _isEntered = true;
         }
 
         private void Deactivate()
         {
-            Debug.Log("Deactivate : " + transform.parent.name);
-            IsInsideActiveArea = false;
+            if(!_isEntered)
+            {
+                return;
+            }
+
+            Debug.Log("Deactivate : " + _id);
+
+            foreach (var target in GetComponentsInChildren<IActivatable>())
+            {
+                target.OnDeactivate();
+            }
 
             for (int i = 0; i < _activateObjectList.Count; ++i)
             {
                 _activateObjectList[i].SetActive(false);
             }
 
-            if (OnDeactive != null)
+            if (OnDeactivate != null)
             {
-                OnDeactive.Invoke();
+                OnDeactivate.Invoke(_id);
             }
+
+            _isEntered = false;
+        }
+
+        public void Reset()
+        {
+            Deactivate();
         }
     }
 }
