@@ -17,6 +17,8 @@ namespace GO
         [SerializeField]
         [Tooltip("Player接触時、一度のみコールバックを実行")]
         private bool _enterOnly = false;
+        [SerializeField]
+        private bool _reverseActivate = false;
 
         private bool _isEntered = false; // Playerが接触中か否か
 
@@ -74,7 +76,7 @@ namespace GO
 
             for (int i = 0; i < _activateObjectList.Count; ++i)
             {
-                _activateObjectList[i].SetActive(true);
+                _activateObjectList[i].SetActive(!_reverseActivate);
             }
 
             if (OnActivate != null)
@@ -101,7 +103,7 @@ namespace GO
 
             for (int i = 0; i < _activateObjectList.Count; ++i)
             {
-                _activateObjectList[i].SetActive(false);
+                _activateObjectList[i].SetActive(_reverseActivate);
             }
 
             if (OnDeactivate != null)

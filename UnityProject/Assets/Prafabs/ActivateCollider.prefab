@@ -52,10 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0dd853a4bc1c645b0e785d73051071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _activateObjectList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _id: 0
+  _activateObjectList: []
+  _enterOnly: 0
 --- !u!114 &114731434215164670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544e52e7528d39543a55e8259cace9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_angle: 30
+  m_angle: 20
   m_distance: 1.5
   m_isTrigger: 1
   m_isFixScale: 1
