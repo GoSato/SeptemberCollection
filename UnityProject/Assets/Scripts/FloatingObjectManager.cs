@@ -29,7 +29,7 @@ namespace GO
         private void Start()
         {
             _controller.SetActiveAll(false);
-            _activator.OnActive += OnStart;
+            //_activator.OnActivate += OnStart;
         }
 
         private void FindFloatingObjects()

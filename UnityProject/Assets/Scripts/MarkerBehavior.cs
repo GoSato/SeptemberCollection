@@ -14,8 +14,8 @@ namespace GO
         private void Awake()
         {
             _activator = GetComponentInChildren<Activator>();
-            _activator.OnActive += EnableFloatingObject;
-            _activator.OnDeactive += DisableFloatingObaject;
+            //_activator.OnActivate += EnableFloatingObject;
+            //_activator.OnDeactivate += DisableFloatingObaject;
         }
 
         private void EnableFloatingObject()
