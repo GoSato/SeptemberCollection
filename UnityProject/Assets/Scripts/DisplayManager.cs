@@ -24,7 +24,15 @@ namespace GO
             }
         }
 
-        private int index = 0;
+        private int _index = 0;
+
+        public int CurrentIndex
+        {
+            get
+            {
+                return _index;
+            }
+        }
 
         private void Show(int id)
         {
@@ -61,34 +69,34 @@ namespace GO
         [ContextMenu("Reset")]
         public void Reset()
         {
-            Hide(index);
-            index = 0;
-            Show(index);
+            Hide(_index);
+            _index = 0;
+            Show(_index);
         }
 
         public void Next()
         {
-            Hide(index);
+            Hide(_index);
 
-            index++;
-            if(index == 11)
+            _index++;
+            if(_index == 11)
             {
-                index = 1;
+                _index = 1;
             }
 
-            Show(index);
+            Show(_index);
         }
 
         public void Back()
         {
-            Hide(index);
-            index--;
+            Hide(_index);
+            _index--;
 
-            if(index == 0 || index  == -1)
+            if(_index == 0 || _index  == -1)
             {
-                index = 10;
+                _index = 10;
             }
-            Show(index);
+            Show(_index);
         }
     }
 }

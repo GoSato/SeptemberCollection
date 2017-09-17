@@ -3,6 +3,7 @@ using UnityEngine.VR.WSA.Persistence;
 using UnityEngine.VR.WSA;
 using HoloToolkit.Unity.InputModule;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace GO
 {
@@ -29,7 +30,6 @@ namespace GO
         void Start()
         {
             Debug.Log("WorldAnchorStore.GetAsync()");
-            //InputManager.Instance.PushFallbackInputHandler(gameObject);
             WorldAnchorStore.GetAsync(AnchorStoreReady);
             _grabController = GetComponent<GrabController>();
         }
@@ -68,6 +68,11 @@ namespace GO
 
         public void OnInputClicked(InputClickedEventData eventData)
         {
+            if(DisplayManager.Instance.CurrentIndex != 0)
+            {
+                return;
+            }
+
             if (anchorStore == null)
             {
                 return;

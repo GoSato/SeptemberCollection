@@ -60,7 +60,6 @@ namespace GO
             }
 
             _isHold = true;
-            InputManager.Instance.PushModalInputHandler(gameObject);
 
             _currentInputSource = eventData.InputSource;
             _currentInputSourceId = eventData.SourceId;
