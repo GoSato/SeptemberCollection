@@ -29,7 +29,7 @@ namespace GO
         void Start()
         {
             Debug.Log("WorldAnchorStore.GetAsync()");
-            InputManager.Instance.PushFallbackInputHandler(gameObject);
+            //InputManager.Instance.PushFallbackInputHandler(gameObject);
             WorldAnchorStore.GetAsync(AnchorStoreReady);
             _grabController = GetComponent<GrabController>();
         }
