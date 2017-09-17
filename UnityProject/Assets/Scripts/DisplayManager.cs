@@ -23,7 +23,7 @@ namespace GO
 
         private void Start()
         {
-            foreach(var activator in _activatorList)
+            foreach (var activator in _activatorList)
             {
                 activator.OnActivate += Show;
             }
@@ -48,6 +48,15 @@ namespace GO
             SetActive(id, false);
         }
 
+        private void HideAll()
+        {
+            _prevId = _currentId = 0;
+            for (int i = 0; i < _displayList.Count; i++)
+            {
+                SetActive(_displayList[i].ID, false);
+            }
+        }
+
         private void SetActive(int id, bool active)
         {
             foreach (var display in _displayList)
@@ -62,15 +71,13 @@ namespace GO
             }
         }
 
-        [ContextMenu("HideAll")]
-        public void HideAll()
+        [ContextMenu("Reset")]
+        public void Reset()
         {
-            for (int i = 0; i < _displayList.Count; i++)
+            HideAll();
+            for (int i = 0; i < _activatorList.Count; i++)
             {
-                for(int q = 0; q < _displayList[i].ObjectList.Count; q++)
-                {
-                    _displayList[i].ObjectList[q].SetActive(false);
-                }
+                _activatorList[i].Reset();
             }
         }
     }

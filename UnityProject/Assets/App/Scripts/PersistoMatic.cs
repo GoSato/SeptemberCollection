@@ -15,6 +15,8 @@ namespace GO
         [SerializeField]
         private Activator _activator;
 
+        private GrabController _grabController;
+
         public string ObjectAnchorStoreName;
 
         WorldAnchorStore anchorStore;
@@ -29,6 +31,7 @@ namespace GO
             Debug.Log("WorldAnchorStore.GetAsync()");
             InputManager.Instance.PushFallbackInputHandler(gameObject);
             WorldAnchorStore.GetAsync(AnchorStoreReady);
+            _grabController = GetComponent<GrabController>();
         }
 
         void Update()
@@ -88,6 +91,7 @@ namespace GO
                 }
 
                 SetActiveAnchorObjects(false);
+                _grabController.enabled = false;
             }
 
             // 固定を解除
@@ -113,6 +117,8 @@ namespace GO
 
                 SetActiveAnchorObjects(true);
                 _activator.Reset();
+                DisplayManager.Instance.Reset();
+                _grabController.enabled = true;
             }
 
             _canPlacing = !_canPlacing;

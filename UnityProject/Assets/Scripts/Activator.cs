@@ -116,6 +116,8 @@ namespace GO
 
         public void Reset()
         {
+            _isEntered = true;
+
             Deactivate();
         }
     }
