@@ -12,8 +12,8 @@ namespace GO
         private List<GameObject> _anchorObjects;
         [SerializeField]
         private float _distanceFromPlayer = 3f;
-        [SerializeField]
-        private Activator _activator;
+        //[SerializeField]
+        //private Activator _activator;
 
         private GrabController _grabController;
 
@@ -116,8 +116,8 @@ namespace GO
                 }
 
                 SetActiveAnchorObjects(true);
-                _activator.Reset();
-                DisplayManager.Instance.Reset();
+                //_activator.Reset();
+                //DisplayManager.Instance.Reset();
                 _grabController.enabled = true;
             }
 
