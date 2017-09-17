@@ -71,7 +71,7 @@ namespace GO
             Hide(index);
 
             index++;
-            if(index == DisplayCount)
+            if(index == 11)
             {
                 index = 1;
             }
@@ -81,12 +81,12 @@ namespace GO
 
         public void Back()
         {
-            Hide(Mathf.Abs(index) % DisplayCount);
+            Hide(index);
             index--;
 
-            if(index == 0)
+            if(index == 0 || index  == -1)
             {
-                index = DisplayCount - 1;
+                index = 10;
             }
             Show(index);
         }
