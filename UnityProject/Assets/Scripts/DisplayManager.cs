@@ -15,42 +15,29 @@ namespace GO
     {
         [SerializeField]
         private List<DisplayList> _displayList;
-        [SerializeField]
-        private List<Activator> _activatorList;
 
-        private int _prevId;
-        private int _currentId;
-
-        private void Start()
+        public int DisplayCount
         {
-            foreach (var activator in _activatorList)
+            get
             {
-                activator.OnActivate += Show;
+                return _displayList.Count;
             }
         }
 
+        private int index = 0;
+
         private void Show(int id)
         {
-            if (id == _currentId) return;
-
-            _prevId = _currentId;
-            _currentId = id;
-
-            SetActive(_prevId, false);
             SetActive(id, true);
         }
 
         private void Hide(int id)
         {
-            if (id != _currentId) return;
-
-            _currentId = _prevId;
             SetActive(id, false);
         }
 
         private void HideAll()
         {
-            _prevId = _currentId = 0;
             for (int i = 0; i < _displayList.Count; i++)
             {
                 SetActive(_displayList[i].ID, false);
@@ -74,11 +61,34 @@ namespace GO
         [ContextMenu("Reset")]
         public void Reset()
         {
-            HideAll();
-            for (int i = 0; i < _activatorList.Count; i++)
+            Hide(index);
+            index = 0;
+            Show(index);
+        }
+
+        public void Next()
+        {
+            Hide(index);
+
+            index++;
+            if(index == DisplayCount)
             {
-                _activatorList[i].Reset();
+                index = 1;
             }
+
+            Show(index);
+        }
+
+        public void Back()
+        {
+            Hide(Mathf.Abs(index) % DisplayCount);
+            index--;
+
+            if(index == 0)
+            {
+                index = DisplayCount - 1;
+            }
+            Show(index);
         }
     }
 }
