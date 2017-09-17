@@ -46,7 +46,6 @@ namespace GO
 
             _currentId = _prevId;
             SetActive(id, false);
-
         }
 
         private void SetActive(int id, bool active)
@@ -59,6 +58,18 @@ namespace GO
                     {
                         obj.SetActive(active);
                     }
+                }
+            }
+        }
+
+        [ContextMenu("HideAll")]
+        public void HideAll()
+        {
+            for (int i = 0; i < _displayList.Count; i++)
+            {
+                for(int q = 0; q < _displayList[i].ObjectList.Count; q++)
+                {
+                    _displayList[i].ObjectList[q].SetActive(false);
                 }
             }
         }
