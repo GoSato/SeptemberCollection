@@ -2,11 +2,19 @@
 using UnityEngine.VR.WSA.Persistence;
 using UnityEngine.VR.WSA;
 using HoloToolkit.Unity.InputModule;
+using System.Collections.Generic;
 
 namespace GO
 {
     public class PersistoMatic : MonoBehaviour, IInputClickHandler
     {
+        [SerializeField]
+        private List<GameObject> _anchorObjects;
+        [SerializeField]
+        private float _distanceFromPlayer = 3f;
+        [SerializeField]
+        private Activator _activator;
+
         public string ObjectAnchorStoreName;
 
         WorldAnchorStore anchorStore;
@@ -28,7 +36,7 @@ namespace GO
             // アンカーをカメラに追従させる
             if (_canPlacing)
             {
-                gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2;
+                gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * _distanceFromPlayer;
             }
         }
 
@@ -78,6 +86,8 @@ namespace GO
                 {
                     attachingAnchor.OnTrackingChanged += AttachingAnchor_OnTrackingChanged;
                 }
+
+                SetActiveAnchorObjects(false);
             }
 
             // 固定を解除
@@ -100,6 +110,9 @@ namespace GO
                         break;
                     }
                 }
+
+                SetActiveAnchorObjects(true);
+                _activator.Reset();
             }
 
             _canPlacing = !_canPlacing;
@@ -115,6 +128,14 @@ namespace GO
                 bool saved = anchorStore.Save(ObjectAnchorStoreName, self);
                 Debug.Log("saved: " + saved);
                 self.OnTrackingChanged -= AttachingAnchor_OnTrackingChanged;
+            }
+        }
+
+        private void SetActiveAnchorObjects(bool active)
+        {
+            for (int i = 0; i < _anchorObjects.Count; i++)
+            {
+                _anchorObjects[i].SetActive(active);
             }
         }
     }
