@@ -40,7 +40,12 @@ namespace GO
 
             if (_autoRotate)
             {
-                transform.DORotate(_initialRot.eulerAngles, _rotateDuration).OnComplete(() => _autoRotation.enabled = true);
+                transform.DORotate(_initialRot.eulerAngles, _rotateDuration).OnComplete(() => {
+                    if(_autoRotation != null)
+                    {
+                        _autoRotation.enabled = true;
+                    }
+                });
             }
         }
 
@@ -54,7 +59,13 @@ namespace GO
 
             if (_autoRotate)
             {
-                transform.DORotate(_initialRot.eulerAngles - new Vector3(0, _rotationAngle, 0), _rotateDuration).OnComplete(() => _autoRotation.enabled = false);
+                transform.DORotate(_initialRot.eulerAngles - new Vector3(0, _rotationAngle, 0), _rotateDuration).OnComplete(() => 
+                {
+                    if(_autoRotation != null)
+                    {
+                        _autoRotation.enabled = false;
+                    }
+                });
             }
         }
 
