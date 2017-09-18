@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace GO
 {
@@ -15,6 +16,9 @@ namespace GO
     {
         [SerializeField]
         private List<DisplayList> _displayList;
+
+        public Action<int> OnNext;
+        public Action<int> OnBack;
 
         public int DisplayCount
         {
@@ -85,6 +89,11 @@ namespace GO
             }
 
             Show(_index);
+
+            if (OnNext != null)
+            {
+                OnNext.Invoke(_index);
+            }
         }
 
         public void Back()
@@ -97,6 +106,11 @@ namespace GO
                 _index = 10;
             }
             Show(_index);
+
+            if(OnBack != null)
+            {
+                OnBack.Invoke(_index);
+            }
         }
     }
 }

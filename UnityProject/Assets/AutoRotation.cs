@@ -7,17 +7,11 @@ namespace GO
     public class AutoRotation : MonoBehaviour
     {
         [SerializeField]
-        private float _angle = 90;
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
+        private Vector3 _rotation;
 
         void Update()
         {
-            transform.Rotate(new Vector3(0, 0, _angle) * Time.deltaTime, Space.Self);
+            transform.Rotate(_rotation * Time.deltaTime, Space.Self);
         }
     }
 }
