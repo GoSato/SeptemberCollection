@@ -8,6 +8,8 @@ namespace GO
     {
         private bool _isEnable = true;
         private MeshRenderer _renderer;
+        [SerializeField]
+        private GameObject _centerAnchor;
 
         private void Awake()
         {
@@ -37,6 +39,7 @@ namespace GO
             if (!_isEnable)
             {
                 _renderer.enabled = true;
+                _centerAnchor.SetActive(false);
                 _isEnable = true;
             }
         }
@@ -46,6 +49,7 @@ namespace GO
             if (_isEnable)
             {
                 _renderer.enabled = false;
+                _centerAnchor.SetActive(true);
                 _isEnable = false;
             }
         }
