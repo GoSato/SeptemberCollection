@@ -10,6 +10,7 @@ namespace GO
     {
         public int ID;
         public List<GameObject> ObjectList;
+        public List<ScaleController> ScalingObjectList;
     }
 
     public class DisplayManager : SingletonMonoBehavior<DisplayManager>
@@ -19,6 +20,8 @@ namespace GO
 
         public Action<int> OnNext;
         public Action<int> OnBack;
+
+        private bool _canReact;
 
         public int DisplayCount
         {
@@ -38,6 +41,11 @@ namespace GO
             }
         }
 
+        private void Start()
+        {
+            HideAll();
+        }
+
         private void Show(int id)
         {
             SetActive(id, true);
@@ -52,6 +60,10 @@ namespace GO
         {
             for (int i = 0; i < _displayList.Count; i++)
             {
+                if(_displayList[i].ID == 0)
+                {
+                    return;
+                }
                 SetActive(_displayList[i].ID, false);
             }
         }
@@ -66,6 +78,24 @@ namespace GO
                     {
                         obj.SetActive(active);
                     }
+
+                    foreach(var scaling in display.ScalingObjectList)
+                    {
+                        _canReact = false;
+
+                        if (active)
+                        {
+                            scaling.gameObject.SetActive(true);
+                            scaling.Appear(() => _canReact = true);
+                        }
+                        else
+                        {
+                            scaling.Disappear(() => {
+                                scaling.gameObject.SetActive(false);
+                                _canReact = true;
+                                });
+                        }
+                    }
                 }
             }
         }
@@ -73,6 +103,11 @@ namespace GO
         [ContextMenu("Reset")]
         public void Reset()
         {
+            if (!_canReact)
+            {
+                return;
+            }
+
             Hide(_index);
             _index = 0;
             Show(_index);
@@ -80,6 +115,11 @@ namespace GO
 
         public void Next()
         {
+            if (!_canReact)
+            {
+                return;
+            }
+
             Hide(_index);
 
             _index++;
@@ -98,6 +138,11 @@ namespace GO
 
         public void Back()
         {
+            if (!_canReact)
+            {
+                return;
+            }
+
             Hide(_index);
             _index--;
 
