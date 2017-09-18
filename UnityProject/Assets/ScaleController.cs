@@ -16,6 +16,8 @@ namespace GO
         private float _rotateDuration;
         [SerializeField]
         private float _rotationAngle;
+        [SerializeField]
+        private bool _autoRotate = true;
 
         private AutoRotation _autoRotation;
         private Vector3 _initialScale;
@@ -31,23 +33,29 @@ namespace GO
         [ContextMenu("Appear")]
         public void Appear(Action OnAppear = null)
         {
-            transform.DOScale(_initialScale, _appearDuration).OnComplete(() => 
+            transform.DOScale(_initialScale, _appearDuration).OnComplete(() =>
             {
-                 OnAppear();
+                OnAppear();
             });
 
-            transform.DORotate(_initialRot.eulerAngles, _rotateDuration).OnComplete(() => _autoRotation.enabled = true);
+            if (_autoRotate)
+            {
+                transform.DORotate(_initialRot.eulerAngles, _rotateDuration).OnComplete(() => _autoRotation.enabled = true);
+            }
         }
 
         [ContextMenu("Disappear")]
         public void Disappear(Action OnDisappear = null)
         {
-            transform.DOScale(new Vector3(0.01f, 0.01f, 0.01f), _disappearDuration).OnComplete(() => 
+            transform.DOScale(new Vector3(0.01f, 0.01f, 0.01f), _disappearDuration).OnComplete(() =>
             {
                 OnDisappear();
             });
 
-            transform.DORotate(_initialRot.eulerAngles - new Vector3(0, _rotationAngle, 0), _rotateDuration).OnComplete(() => _autoRotation.enabled = false);
+            if (_autoRotate)
+            {
+                transform.DORotate(_initialRot.eulerAngles - new Vector3(0, _rotationAngle, 0), _rotateDuration).OnComplete(() => _autoRotation.enabled = false);
+            }
         }
 
         public void ForceDisappear()
