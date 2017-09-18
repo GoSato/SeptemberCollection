@@ -86,7 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4209837600068566}
   m_Layer: 0
-  m_Name: 03_Woment
+  m_Name: 02_Women
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
