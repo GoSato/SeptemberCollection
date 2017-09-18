@@ -8,10 +8,12 @@ namespace GO
     {
         [SerializeField]
         private Vector3 _rotation;
+        [SerializeField]
+        private Space _space = Space.World;
 
         void Update()
         {
-            transform.Rotate(_rotation * Time.deltaTime, Space.Self);
+            transform.Rotate(_rotation * Time.deltaTime, _space);
         }
     }
 }

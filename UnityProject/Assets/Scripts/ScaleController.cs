@@ -27,7 +27,7 @@ namespace GO
         {
             _initialScale = transform.localScale;
             _initialRot = transform.localRotation;
-            _autoRotation = GetComponent<AutoRotation>();
+            _autoRotation = GetComponentInChildren<AutoRotation>();
         }
 
         [ContextMenu("Appear")]

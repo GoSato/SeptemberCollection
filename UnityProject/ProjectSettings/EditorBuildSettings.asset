@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Test/ScaleTest.unity
     guid: df602210290eb72469539a89a0db74f8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test/OnePointTest.unity
     guid: f865747905ca9a246bb7a11cae0a17aa
+  - enabled: 1
+    path: Assets/Scenes/SeptemberCollection_Main.unity
+    guid: 2e295219424039b429b65d89bd6d4130
