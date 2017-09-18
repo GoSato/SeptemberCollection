@@ -12,24 +12,32 @@ namespace GO
         private float _appearDuration;
         [SerializeField]
         private float _disappearDuration;
+        [SerializeField]
+        private float _rotateDuration;
+        [SerializeField]
+        private float _rotationAngle;
 
         private Vector3 _initialScale;
+        private Quaternion _initialRot;
 
         private void Awake()
         {
             _initialScale = transform.localScale;
+            _initialRot = transform.localRotation;
         }
 
         [ContextMenu("Appear")]
         public void Appear(Action OnAppear = null)
         {
             transform.DOScale(_initialScale, _appearDuration).OnComplete(() => OnAppear());
+            transform.DORotate(_initialRot.eulerAngles, _rotateDuration);
         }
 
         [ContextMenu("Disappear")]
         public void Disappear(Action OnDisappear = null)
         {
             transform.DOScale(new Vector3(0.01f, 0.01f, 0.01f), _disappearDuration).OnComplete(() => OnDisappear());
+            transform.DORotate(_initialRot.eulerAngles - new Vector3(0, _rotationAngle, 0), _rotateDuration);
         }
 
         public void ForceDisappear()
