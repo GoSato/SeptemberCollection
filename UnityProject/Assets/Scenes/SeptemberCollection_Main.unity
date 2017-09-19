@@ -10833,23 +10833,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1876738704892266, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1654812751074682, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1014791356167240, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869859042469904, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1228497122296174, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1055234491954068, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
       propertyPath: m_StaticEditorFlags
@@ -10857,15 +10857,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1047166782957788, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1603860139186086, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1538526899475534, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 480a878a976467742abf7bec5b6968d5, type: 2}
