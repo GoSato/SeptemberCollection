@@ -4155,6 +4155,10 @@ Prefab:
       propertyPath: SurfaceCursorDistance
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1937621274864954, guid: 7c1b2fa8d1778864a91b1bc5178151ad, type: 2}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c1b2fa8d1778864a91b1bc5178151ad, type: 2}
   m_IsPrefabParent: 0
